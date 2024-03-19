@@ -3,7 +3,7 @@ import pathlib
 import signal
 import logging
 import uuid
-import concurrent
+import concurrent.futures
 import multiprocessing as mp
 from multiprocessing.connection import Connection
 
