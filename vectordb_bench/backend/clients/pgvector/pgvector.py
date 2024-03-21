@@ -1,5 +1,6 @@
 """Wrapper around the Pgvector vector database over VectorDB"""
 
+import time
 import io
 import logging
 from contextlib import contextmanager
@@ -108,6 +109,7 @@ class PgVector(VectorDB):
         assert self.cursor is not None, "Cursor is not initialized"
 
         index_param = self.case_config.index_param()
+        start = time.time()
         if self.case_config.index == IndexType.HNSW:
             log.debug(f'Creating HNSW index. m={index_param["m"]}, ef_construction={index_param["ef_construction"]}.')
             self.cursor.execute(f'CREATE INDEX IF NOT EXISTS {self._index_name} ON public."{self.table_name}" USING hnsw (embedding {index_param["metric"]}) WITH (m={index_param["m"]}, ef_construction={index_param["ef_construction"]});')
@@ -117,6 +119,9 @@ class PgVector(VectorDB):
         else:
             assert "Invalid index type {self.case_config.index}"
         self.conn.commit()
+        end = time.time()
+        log.info(f'Time taken to build index: {end - start}')
+
 
     def _create_table(self, dim : int):
         assert self.conn is not None, "Connection is not initialized"
