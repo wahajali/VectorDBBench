@@ -1,7 +1,9 @@
 import logging
 from logging import config
+import os
 
 def init(log_level, filepath):
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
