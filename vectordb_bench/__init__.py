@@ -2,26 +2,31 @@ import environs
 import inspect
 import pathlib
 from . import log_util
+from dotenv import load_dotenv, dotenv_values
 
-
-env = environs.Env()
-env.read_env(".env")
+env = load_dotenv(override=True)
+env = dotenv_values()
+#env = environs.Env()
+#env.read_env(".env", overwrite=True)
 
 class config:
     ALIYUN_OSS_URL = "assets.zilliz.com.cn/benchmark/"
     AWS_S3_URL = "assets.zilliz.com/benchmark/"
 
-    LOG_LEVEL = env.str("LOG_LEVEL", "INFO")
+    LOG_LEVEL = env.get("LOG_LEVEL", "INFO")
 
-    DEFAULT_DATASET_URL = env.str("DEFAULT_DATASET_URL", AWS_S3_URL)
-    DATASET_LOCAL_DIR = env.path("DATASET_LOCAL_DIR", "/tmp/vectordb_bench/dataset")
-    NUM_PER_BATCH = env.int("NUM_PER_BATCH", 5000)
+    LOG_PATH = env.get("LOG_PATH", "logs.txt")
 
-    DROP_OLD = env.bool("DROP_OLD", True)
-    USE_SHUFFLED_DATA = env.bool("USE_SHUFFLED_DATA", True)
+    DEFAULT_DATASET_URL = env.get("DEFAULT_DATASET_URL", AWS_S3_URL)
+    DATASET_LOCAL_DIR = env.get("DATASET_LOCAL_DIR", "/tmp/vectordb_bench/dataset")
+    NUM_PER_BATCH = env.get("NUM_PER_BATCH", 5000)
+
+    DROP_OLD = env.get("DROP_OLD", True)
+    USE_SHUFFLED_DATA = env.get("USE_SHUFFLED_DATA", True)
     NUM_CONCURRENCY = [1, 5, 10, 15, 20, 25, 30, 35]
 
-    RESULTS_LOCAL_DIR = pathlib.Path(__file__).parent.joinpath("results")
+    RESULTS_DIR = pathlib.Path(__file__).parent.joinpath("results").__str__()
+    RESULTS_LOCAL_DIR = pathlib.Path(env.get("RESULTS_PATH", RESULTS_DIR))
 
     CAPACITY_TIMEOUT_IN_SECONDS = 24 * 3600 # 24h
     LOAD_TIMEOUT_DEFAULT        = 2.5 * 3600 # 2.5h
@@ -49,4 +54,5 @@ class config:
         ]
         return tmp
 
-log_util.init(config.LOG_LEVEL)
+print(config.LOG_PATH)
+log_util.init(config.LOG_LEVEL, config.LOG_PATH)

@@ -64,6 +64,7 @@ class PgVector(VectorDB):
             >>>     self.insert_embeddings()
             >>>     self.search_embedding()
         """
+        #assert 1==1, "error"
         self.conn = psycopg2.connect(**self.db_config)
         self.conn.autocommit = False
         self.cursor = self.conn.cursor()

@@ -1,7 +1,7 @@
 import logging
 from logging import config
 
-def init(log_level):
+def init(log_level, filepath):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -23,15 +23,21 @@ def init(log_level):
                 'class': 'logging.StreamHandler',
                 'formatter': 'default',
             },
+            'file':{
+                'formatter':'default',
+                'class':'logging.FileHandler',
+                'level':'DEBUG',
+                'filename':filepath
+            }
         },
         'loggers': {
             'vectordb_bench': {
-                'handlers': ['console'],
+                'handlers': ['console', 'file'],
                 'level': log_level,
                 'propagate': False
             },
             'no_color': {
-                'handlers': ['no_color_console'],
+                'handlers': ['file'],
                 'level': log_level,
                 'propagate': False
             },
