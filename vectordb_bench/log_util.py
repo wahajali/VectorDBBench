@@ -32,7 +32,7 @@ def init(log_level, filepath):
         },
         'loggers': {
             'vectordb_bench': {
-                'handlers': ['console', 'file'],
+                'handlers': ['file'],
                 'level': log_level,
                 'propagate': False
             },

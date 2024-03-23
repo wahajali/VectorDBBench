@@ -13,7 +13,7 @@ import psycopg2
 import json
 import importlib
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename="logs.log", filemode="w", level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log = logging.getLogger(__name__)
 
 def setup_db(config):
@@ -72,7 +72,6 @@ def setup_db(config):
 
 def update_env(label): 
     path = pathlib.Path(__file__).parent.joinpath("results_final").joinpath(label)
-    print(path)
     path.mkdir(parents=True, exist_ok=True)
     config_content = f"""\
 LOG_LEVEL=DEBUG
@@ -88,7 +87,7 @@ DATASET_LOCAL_DIR="/tmp/vector_db_bench/dataset"
     with open(file_path, "w") as file:
         file.write(config_content)
 
-    print(f"Configuration file '{file_path}' created/overwritten successfully.")
+    log.info(f"Configuration file '{file_path}' created/overwritten successfully.")
 
 def main():
 

@@ -54,5 +54,4 @@ class config:
         ]
         return tmp
 
-print(config.LOG_PATH)
 log_util.init(config.LOG_LEVEL, config.LOG_PATH)
