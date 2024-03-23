@@ -13,7 +13,7 @@ import psycopg2
 import json
 import importlib
 
-logging.basicConfig(filename="logs.log", filemode="w", level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log = logging.basicConfig(handlers=[logging.FileHandler("output.log")], level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log = logging.getLogger(__name__)
 
 def setup_db(config):
