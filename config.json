@@ -32,16 +32,6 @@
         "test_type": "Performance768D1M",
         "runs": 3,
         "drop_table": "false"
-      },
-      {
-        "scenario": "8",
-        "index": "IVFFLAT",
-        "metric_type": "None",
-        "index_params": {"lists": 2000},
-        "search_params": [{"probes": 32}, {"probes": 4}],
-        "test_type": "Performance768D1M",
-        "runs": 3,
-        "drop_table": "false"
       }
     ]
   }
