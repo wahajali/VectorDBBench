@@ -36,6 +36,7 @@ def setup_db(config):
     try:
         # Create Database
         log.info("Creating Database...")
+        cur.execute("DROP DATABASE ann")
         cur.execute("CREATE DATABASE ann")
 
         # Set Maintenance Work MEM
@@ -160,7 +161,8 @@ def main():
                 runner._sync_running_task()
                 log.info("Sleeping for 2 mins")
                 log.info("******************COMPLETED EXECUTION******************\n\n")
-                time.sleep(10)
+                del(runner)
+                time.sleep(120)
 
 
 
