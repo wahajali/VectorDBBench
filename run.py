@@ -112,7 +112,7 @@ def main():
                     label = f'{database_config["hyperscalar"]}-{case["index"]}-{str(index_params["lists"])}-{str(search_param["probes"])}-{database_config["db_instance"]}-run_{str(i)}'
                     db_case_config=DB.PgVector.case_config_cls(index_type=IndexType.IVFFlat)(metric_type=None, lists=index_params["lists"], probes=search_param["probes"])
                 elif case["index"] == "HNSW":
-                    label = f'{database_config["hyperscalar"]}-{case["index"]}-{str(index_params["m"])}-{str(index_params["ef_construction"])}-{str(search_param["ef_search"])}-{database_config["db_instance"]}'
+                    label = f'{database_config["hyperscalar"]}-{case["index"]}-{str(index_params["m"])}-{str(index_params["ef_construction"])}-{str(search_param["ef_search"])}-{database_config["db_instance"]}-run_{str(i)}'
                     db_case_config=DB.PgVector.case_config_cls(index_type=IndexType.HNSW)(metric_type=None, m=index_params["m"], ef_construction=index_params["ef_construction"], ef=search_param["ef_search"])
                 else:
                     log.info(case)
