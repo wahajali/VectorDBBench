@@ -1,0 +1,57 @@
+{
+    "database_config": {
+        "user_name": "postgres",
+            "password": "pwd",
+            "host": "host",
+            "hyperscalar": "aws",
+            "db_instance": "m5.xlarge",
+            "port": 5432,
+            "pgvector_version": "0.6.0",
+            "pg_version": "16.2",
+            "database_params": {
+                "maintenance_work_mem": "4G",
+                "max_parallel_maintenance_workers": 2
+            }
+    },
+        "cases": [
+        {
+            "extra_label": "no-index-start",
+            "index": "HNSW",
+            "metric_type": "None",
+            "index_params": {"m": 16, "ef_construction": 64},
+            "search_params": [{"ef_search": 10}, {"ef_search": 40}, {"ef_search": 120}],
+            "test_type": "Performance768D1M",
+            "runs": 3,
+            "drop_table": "false"
+        },
+        {
+            "extra_label": "no-index-start",
+            "index": "HNSW",
+            "metric_type": "None",
+            "index_params": {"m": 16, "ef_construction": 40},
+            "search_params": [{"ef_search": 10}, {"ef_search": 40}, {"ef_search": 120}],
+            "test_type": "Performance768D1M",
+            "runs": 3,
+            "drop_table": "false"
+        },
+        {
+            "index": "IVFFLAT",
+            "metric_type": "None",
+            "index_params": {"lists": 1000},
+            "search_params": [{"probes": 32}, {"probes": 4}],
+            "test_type": "Performance768D1M",
+            "runs": 3,
+            "drop_table": "false"
+        },
+        {
+            "scenario": "5",
+            "index": "IVFFLAT",
+            "metric_type": "None",
+            "index_params": {"lists": 2000},
+            "search_params": [{"probes": 32}, {"probes": 4}],
+            "test_type": "Performance768D1M",
+            "runs": 3,
+            "drop_table": "false"
+        }
+    ]
+}
