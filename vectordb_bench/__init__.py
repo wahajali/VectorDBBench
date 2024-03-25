@@ -28,7 +28,7 @@ class config:
     RESULTS_DIR = pathlib.Path(__file__).parent.joinpath("results").__str__()
     RESULTS_LOCAL_DIR = pathlib.Path(env.get("RESULTS_PATH", RESULTS_DIR))
 
-    CONFIG_PATH = pathlib.Path(__file__).parent.joinpath("config.json")
+    CONFIG_PATH = pathlib.Path(__file__).parent.parent.joinpath("config.json")
 
     CAPACITY_TIMEOUT_IN_SECONDS = 24 * 3600 # 24h
     LOAD_TIMEOUT_DEFAULT        = 2.5 * 3600 # 2.5h
