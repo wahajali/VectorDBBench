@@ -71,7 +71,7 @@ def setup_db(config):
         cur.close()
         conn.close()
 
-def update_env(label): 
+def update_env(label):
     path = pathlib.Path(__file__).parent.joinpath("results_final").joinpath(label)
     path.mkdir(parents=True, exist_ok=True)
     config_content = f"""\
@@ -94,7 +94,7 @@ def main():
 
     with open("config.json") as f:
         configuration=json.load(f)
-    
+
     database_config = configuration["database_config"]
     cases = configuration["cases"]
 
@@ -107,7 +107,7 @@ def main():
             index_params = case["index_params"]
             search_params = case["search_params"]
 
-            for j, search_param in enumerate(search_params): 
+            for j, search_param in enumerate(search_params):
                 if case["index"] == "IVFFLAT":
                     label = f'{database_config["hyperscalar"]}-{case["index"]}-{str(index_params["lists"])}-{str(search_param["probes"])}-{database_config["db_instance"]}-run_{str(i)}'
                     db_case_config=DB.PgVector.case_config_cls(index_type=IndexType.IVFFlat)(metric_type=None, lists=index_params["lists"], probes=search_param["probes"])
@@ -117,7 +117,10 @@ def main():
                 else:
                     log.info(case)
                     assert "Invalid index type specified"
-                
+
+                if case["extra_label"] is not None:
+                    label = label + "-" + case["extra_label"]
+
                 db_config=PgVectorConfig(db_label=label, user_name=database_config["user_name"], password=database_config["password"], host=database_config["host"], port=database_config["port"], db_name="ann")
 
                 if case["test_type"] == "Performance768D1M":
@@ -151,10 +154,10 @@ def main():
                     # Always drop on first run of a case
                     log.info("set drop_old = true, j=0")
                     runner.set_drop_old(True)
-                elif case["drop_table"] == "false": 
+                elif case["drop_table"] == "false":
                     log.info("set drop_old = false")
                     runner.set_drop_old(False)
-                else: 
+                else:
                     runner.set_drop_old(False)
 
                 runner.run([task_config])

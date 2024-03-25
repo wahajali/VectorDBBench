@@ -49,7 +49,7 @@ class PgVector(VectorDB):
             self._drop_index()
             self._drop_table()
             self._create_table(dim)
-            self._create_index()
+            #self._create_index()
 
         self.cursor.close()
         self.conn.close()

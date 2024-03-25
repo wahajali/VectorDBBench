@@ -3,6 +3,7 @@ import pathlib
 import signal
 import logging
 import uuid
+import json
 import concurrent.futures
 import multiprocessing as mp
 from multiprocessing.connection import Connection
@@ -68,6 +69,10 @@ class BenchMarkRunner:
         run_id = uuid.uuid4().hex
         log.info(f"generated uuid for the tasks: {run_id}")
         task_label = task_label if task_label else run_id
+
+        with open(config.CONFIG_PATH) as f:
+            d = json.load(f)
+            log.info(f'Got config: {d["database_config"]}')
 
         self.receive_conn, send_conn = mp.Pipe()
         self.latest_error = ""
