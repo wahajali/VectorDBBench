@@ -35,6 +35,7 @@
             "drop_table": "false"
         },
         {
+            "extra_label": "no-index-start",
             "index": "IVFFLAT",
             "metric_type": "None",
             "index_params": {"lists": 1000},
@@ -44,7 +45,7 @@
             "drop_table": "false"
         },
         {
-            "scenario": "5",
+            "extra_label": "no-index-start",
             "index": "IVFFLAT",
             "metric_type": "None",
             "index_params": {"lists": 2000},
