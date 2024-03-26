@@ -23,6 +23,8 @@ def setup_db(config):
     username = config["user_name"]
     password = config["password"]
     port = config["port"]
+    m_work_mem = config["database_params"]["maintenance_work_mem"]
+    max_parallel_work = config["database_params"]["max_parallel_maintenance_workers"]
 
     # Connect to the PostgreSQL database
     conn = psycopg2.connect(host=hostname, user=username, password=password, dbname="postgres", port=port)
@@ -41,11 +43,11 @@ def setup_db(config):
 
         # Set Maintenance Work MEM
         log.info("Set Maintenance Work MEM...")
-        cur.execute(f'ALTER USER {username} SET maintenance_work_mem = "4GB"')
+        cur.execute(f'ALTER USER {username} SET maintenance_work_mem = "{m_work_mem}"')
 
         # Set Parallel Maintenance Workers
         log.info("Set Parallel Maintenance Workers...")
-        cur.execute(f'ALTER USER {username} SET max_parallel_maintenance_workers = 2')
+        cur.execute(f'ALTER USER {username} SET max_parallel_maintenance_workers = {str(max_parallel_work)}')
 
     except psycopg2.Error as e:
         log.error(f'Error: {e}')

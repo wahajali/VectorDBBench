@@ -9,7 +9,7 @@
       "pgvector_version": "0.6.0",
       "pg_version": "16.2",
       "database_params": {
-        "maintenance_work_mem": "4G",
+        "maintenance_work_mem": "4GB",
         "max_parallel_maintenance_workers": 2
         }
     },
