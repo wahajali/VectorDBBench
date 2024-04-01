@@ -71,6 +71,17 @@ CaseConfigParamInput_IndexType = CaseConfigInput(
     },
 )
 
+CaseConfigParamInput_IndexType_PgVector = CaseConfigInput(
+    label=CaseConfigParamType.IndexType,
+    inputType=InputType.Option,
+    inputConfig={
+        "options": [
+            IndexType.HNSW.value,
+            IndexType.IVFFlat.value,
+        ],
+    },
+)
+
 CaseConfigParamInput_M = CaseConfigInput(
     label=CaseConfigParamType.M,
     inputType=InputType.Number,
@@ -125,6 +136,46 @@ CaseConfigParamInput_EFConstruction_PgVectoRS = CaseConfigInput(
     },
     isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
     == IndexType.HNSW.value,
+)
+
+CaseConfigParamInput_EFConstruction_PgVector = CaseConfigInput(
+    label=CaseConfigParamType.EFConstruction,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 8,
+        "max": 512,
+        "value": 64,
+    },
+    isDisplayed=lambda config: config[CaseConfigParamType.IndexType]
+    == IndexType.HNSW.value,
+)
+
+CaseConfigParamInput_Lists_PgVector = CaseConfigInput(
+    label=CaseConfigParamType.lists,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 65536,
+        "value": 10,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    in [
+        IndexType.IVFFlat.value,
+    ]
+)
+
+CaseConfigParamInput_Probes_PgVector = CaseConfigInput(
+    label=CaseConfigParamType.probes,
+    inputType=InputType.Number,
+    inputConfig={
+        "min": 1,
+        "max": 65536,
+        "value": 1,
+    },
+    isDisplayed=lambda config: config.get(CaseConfigParamType.IndexType, None)
+    in [
+        IndexType.IVFFlat.value,
+    ]
 )
 
 CaseConfigParamInput_M_ES = CaseConfigInput(
@@ -470,8 +521,20 @@ ESPerformanceConfig = [
     CaseConfigParamInput_NumCandidates_ES,
 ]
 
-PgVectorLoadingConfig = [CaseConfigParamInput_Lists]
-PgVectorPerformanceConfig = [CaseConfigParamInput_Lists, CaseConfigParamInput_Probes]
+PgVectorLoadingConfig = [
+    CaseConfigParamInput_IndexType_PgVector,
+    CaseConfigParamInput_M,
+    CaseConfigParamInput_EFConstruction_PgVector,
+    CaseConfigParamInput_Lists_PgVector,
+]
+
+PgVectorPerformanceConfig = [
+    CaseConfigParamInput_IndexType_PgVector,
+    CaseConfigParamInput_M,
+    CaseConfigParamInput_EFConstruction_PgVector,
+    CaseConfigParamInput_Lists_PgVector,
+    CaseConfigParamInput_Probes_PgVector,
+]
 
 PgVectoRSLoadingConfig = [
     CaseConfigParamInput_IndexType,
