@@ -266,7 +266,7 @@ class PgVector(VectorDB):
 
         index_create_sql = sql.SQL(
             """
-            CREATE INDEX IF NOT EXISTS {index_name} ON public.{table_name} 
+            CREATE INDEX IF NOT EXISTS {index_name} ON public.{table_name}
             USING {index_type} (embedding {embedding_metric})
             """
         ).format(
